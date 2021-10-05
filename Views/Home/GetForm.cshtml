@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewData["Title"] = "GetForm";
+}
+
+<h1>GetForm</h1>
+
+<form id="MyForm" method="post" asp-action="UseForm">
+    <fieldset>
+        <legend>Please complete this form.</legend>
+        <div>
+            <label for="FirstName">First name:</label>
+            <input type="text" name="FirstName" id="FirstName" />
+            <span class="text-warning" id="FirstNameInvalid"></span>
+        </div>
+        <div>
+            <label for="LastName">Last name:</label>
+            <input type="text" name="LastName" id="LastName" />
+            <span class="text-warning" id="LastNameInvalid"></span>
+        </div>
+        <div>
+            <label for="Email">Email:</label>
+            <input type="text" name="Email" id="Email" />
+            <span class="text-warning" id="EmailInvalid"></span>
+        </div>
+        <div>
+            <label for="Password">Password:</label>
+            <input type="text" name="Password" id="Password" />
+            <span class="text-warning" id="PasswordInvalid"></span>
+        </div>
+        <div>
+            <label for="ConfirmPassword">Confirm password:</label>
+            <input type="text" name="ConfirmPassword" id="ConfirmPassword" />
+            <span class="text-warning" id="ConfirmPasswordInvalid"></span>
+        </div>
+        <div>
+            <input type="submit" value="Submit" />
+        </div>
+    </fieldset>
+</form>
+
+<script>
+//const { isNumeric } = require("jquery");
+
+//const { isNumeric } = require("jquery");
+
+    let myForm = document.querySelector('#MyForm');
+
+    function validateForm() {
+        let firstName = document.querySelector('#FirstName').value;
+        let lastName = document.querySelector('#LastName').value;
+        let email = document.querySelector('#Email').value;
+        let password = document.querySelector('#Password').value;
+        let confirmPassword = document.querySelector('#ConfirmPassword').value;
+
+        let result = true;
+
+        // Check first name
+        if (firstName.length < 2) {
+            document.querySelector('#FirstNameInvalid').innerHTML = 'First name must contain at least two characters.';
+            result = false;
+        }
+
+        // Check last name
+        if (lastName.length < 2) {
+            document.querySelector('#LastNameInvalid').innerHTML = 'Last name must contain at least two characters.';
+            result = false;
+        }
+
+        // Check email
+        if (email.indexOf('.') == -1 || email.indexOf('@@') == -1) {
+            document.querySelector('#EmailInvalid').innerHTML = 'Please enter a valid email address.';
+            result = false;
+        }
+
+        // Check password
+        let upperCaseCount = 0;
+        let lowerCaseCount = 0;
+        let numericCount = 0;
+        let symbolCount = 0;
+
+        for (let i = 0; i < password.length; i++) {
+            character = password.charAt(i);
+
+            if (character == character.toUpperCase()) {
+                upperCaseCount++;
+            }
+
+            if (character == character.toLowerCase()) {
+                lowerCaseCount++;
+            }
+
+            if (character >= 0 && character <= 9) {
+                numericCount++;
+            }
+
+            let symbols = /[!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+            if (symbols.test(character)) {
+                symbolCount++;
+            }
+        }
+        
+        if (upperCaseCount == 0 || lowerCaseCount == 0 || numericCount == 0 || symbolCount == 0) {
+            document.querySelector('#PasswordInvalid').innerHTML = 'Password must contain at least one: uppercase letter, lowercase letter, number, and symbol.'
+            result = false;
+        }
+
+        // Check confirm password
+        if (password != confirmPassword) {
+            document.querySelector('#ConfirmPasswordInvalid').innerHTML = 'Passwords must match.'
+            result = false;
+        }
+
+        return result;
+    }
+
+    myForm.addEventListener('submit', function (ev) {
+        if (!validateForm()) {
+            console.log('Validation failed, skipping submit.');
+            ev.preventDefault();
+        }
+    });
+</script>

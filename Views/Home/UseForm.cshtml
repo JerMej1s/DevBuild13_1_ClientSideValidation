@@ -1,0 +1,25 @@
+﻿@model UserInfo
+@{
+    ViewData["Title"] = "UseForm";
+}
+
+<h1>UseForm</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Password</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.FirstName</td>
+            <td>@Model.LastName</td>
+            <td>@Model.Email</td>
+            <td>@Model.Password</td>
+        </tr>
+    </tbody>
+</table>
